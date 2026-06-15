@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft 倉庫庫存</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="game-screen">
+    <section class="inventory-window" aria-labelledby="windowTitle">
+      <header class="page-header">
+        <h1 id="windowTitle" class="page-title">大型儲物箱</h1>
+        <div class="toolbar">
+          <input id="searchInput" type="search" placeholder="搜尋物品或 NamespaceID">
+          <select id="statusFilter" aria-label="篩選庫存狀態">
+            <option value="all">全部</option>
+            <option value="low">低庫存</option>
+            <option value="full">滿倉</option>
+          </select>
+          <button id="refreshButton" class="mc-button" type="button">刷新</button>
+        </div>
+      </header>
+
+      <nav id="farmTabs" class="chest-tabs" aria-label="倉庫列表"></nav>
+
+      <section class="chest-section" aria-labelledby="chestTitle">
+        <div class="section-title-row">
+          <h2 id="chestTitle">容器</h2>
+          <span id="dashboardSubtitle" class="source-line">正在載入庫存...</span>
+        </div>
+        <div id="inventoryGrid" class="slot-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="player-section" aria-labelledby="summaryTitle">
+        <h2 id="summaryTitle">庫存摘要</h2>
+        <div class="summary-grid">
+          <div class="summary-cell">
+            <span>總數量</span>
+            <strong id="totalAmount">0</strong>
+          </div>
+          <div class="summary-cell">
+            <span>格數</span>
+            <strong id="itemCount">0</strong>
+          </div>
+          <div class="summary-cell">
+            <span>低庫存</span>
+            <strong id="lowCount">0</strong>
+          </div>
+          <div class="summary-cell">
+            <span>更新時間</span>
+            <strong id="lastUpdated">--</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="detail-window" aria-label="已選物品">
+      <h2 id="selectedChestName">全部容器</h2>
+      <p id="selectedChestDesc">選取一個物品格來查看堆疊資訊。</p>
+      <div id="itemDetail" class="item-detail empty"></div>
+    </aside>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
