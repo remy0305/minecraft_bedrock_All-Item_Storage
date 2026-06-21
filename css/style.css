@@ -225,13 +225,14 @@ select:focus {
 }
 
 .chest-tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   flex: 0 0 auto;
   max-width: 190px;
   min-width: 0;
-  padding: 0 8px;
+  padding: 0 24px 0 8px;
 }
 
 .chest-tab span {
@@ -241,9 +242,21 @@ select:focus {
 }
 
 .chest-tab strong {
-  color: #3f3f3f;
-  font-size: 12px;
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 1px 4px;
+  color: #202020;
+  font-size: 11px;
   font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  background: #eeeeee;
+  border: 2px solid;
+  border-color: #fff #555 #555 #fff;
+  box-shadow: 1px 1px 0 #000;
 }
 
 .chest-section,

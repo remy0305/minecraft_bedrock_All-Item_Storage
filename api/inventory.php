@@ -1,102 +1,112 @@
 <?php
-// 庫存讀取 API：前端 app.js 會 fetch 這支，取得目前要顯示的庫存 JSON。
+/**
+ * 查詢完整農場 / 倉庫庫存 API。
+ *
+ * 前端主要讀這支 API：
+ *   js/app.js -> fetch('api/inventory.php')
+ *
+ * 這支 API 只「查詢」MySQL，不會讀 data/*.json，也不會寫入資料庫。
+ * 資料來源是 sync_data.php 已經匯入好的三張表：
+ * - farm
+ * - farm_inventory
+ * - item_master
+ *
+ * 回傳格式：
+ * {
+ *   "success": true,
+ *   "updated_at": "...",
+ *   "farms": [
+ *     {
+ *       "farm_code": "...",
+ *       "farm_name": "...",
+ *       "items": [...]
+ *     }
+ *   ]
+ * }
+ */
 header('Content-Type: application/json; charset=utf-8');
 
-// 讀取 JSON 內的 updated_at，轉成 timestamp，方便判斷哪個檔案最新。
-function get_payload_updated_at(array $payload): ?int
-{
-    $updatedAt = $payload['updated_at'] ?? null;
-    if (!is_string($updatedAt) || trim($updatedAt) === '') {
-        return null;
-    }
+require_once __DIR__ . '/db.php';
 
-    $timestamp = strtotime($updatedAt);
-    return $timestamp === false ? null : $timestamp;
+$connection = get_db_connection();//建立一個連到 MySQL 資料庫的連線。
+
+
+// 用 farm 當主表，LEFT JOIN 庫存與物品主檔。
+// 使用 LEFT JOIN 的原因：就算某個 farm 暫時沒有物品，也仍然會出現在回傳結果。
+$sql = "
+    SELECT
+      f.farm_id,
+      f.farm_code,
+      f.farm_name,
+      f.description,
+      f.updated_at AS farm_updated_at,
+      fi.NamespaceID,
+      i.name_zh,
+      i.image,
+      fi.amount,
+      fi.updated_at AS item_updated_at
+    FROM farm AS f
+    LEFT JOIN farm_inventory AS fi
+      ON fi.farm_id = f.farm_id
+    LEFT JOIN item_master AS i
+      ON i.NamespaceID = fi.NamespaceID
+    ORDER BY f.farm_code ASC, fi.amount DESC, fi.NamespaceID ASC
+";
+
+$result = $connection->query($sql);
+if (!$result) {
+    send_json_error('Failed to query inventory: ' . $connection->error);
 }
 
-// 將不同形狀的 JSON 正規化成前端固定使用的 farms/items 陣列格式。
-function normalize_farms(array $payload): array
-{
-    $farms = array_is_list($payload) ? $payload : [$payload];
+// 先用 farm_id 分組，避免 SQL join 後每個 item 都重複一份 farm 資料。
+$farmsById = [];
 
-    return array_values(array_filter(array_map(function ($farm) {
-        if (!is_array($farm) || empty($farm['farm_code']) || !isset($farm['items']) || !is_array($farm['items'])) {
-            return null;
-        }
+while ($row = $result->fetch_assoc()) {
+    $farmId = (int) $row['farm_id'];
 
-        $farmUpdatedAt = isset($farm['updated_at']) && $farm['updated_at'] !== ''
-            ? (string) $farm['updated_at']
-            : '';
-
-        return [
-            'farm_code' => (string) $farm['farm_code'],
-            'farm_name' => isset($farm['farm_name']) && $farm['farm_name'] !== '' ? (string) $farm['farm_name'] : (string) $farm['farm_code'],
-            'description' => isset($farm['description']) ? (string) $farm['description'] : '',
-            'updated_at' => $farmUpdatedAt,
-            'items' => array_values(array_filter(array_map(function ($item) use ($farmUpdatedAt) {
-                if (!is_array($item) || empty($item['NamespaceID'])) {
-                    return null;
-                }
-
-                return [
-                    'NamespaceID' => (string) $item['NamespaceID'],
-                    'amount' => (int) ($item['amount'] ?? 0),
-                    'updated_at' => isset($item['updated_at']) && $item['updated_at'] !== '' ? (string) $item['updated_at'] : $farmUpdatedAt,
-                ];
-            }, $farm['items']))),
+    if (!isset($farmsById[$farmId])) {
+        $farmsById[$farmId] = [
+            'farm_code' => $row['farm_code'],
+            'farm_name' => $row['farm_name'],
+            'description' => $row['description'] ?? '',
+            'updated_at' => $row['farm_updated_at'] ?? '',
+            'item_count' => 0,
+            'items' => [],
         ];
-    }, $farms)));
-}
+    }
 
-// 找到 data 資料夾，這裡放外部產生或匯入的庫存 JSON 檔案。
-$dataDir = realpath(__DIR__ . '/../data');
-if ($dataDir === false || !is_dir($dataDir)) {
-    http_response_code(404);
-    echo json_encode(['error' => 'Cannot find data directory.'], JSON_UNESCAPED_UNICODE);
-    exit;
-}
-
-$files = glob($dataDir . DIRECTORY_SEPARATOR . '*.json') ?: [];
-$candidates = [];
-
-// 掃描所有 JSON 檔，排除素材對照表，只留下可作為庫存來源的檔案。
-foreach ($files as $file) {
-    $name = basename($file);
-    if ($name === 'namespace_assets.json' || !is_file($file) || !is_readable($file)) {
+    // 如果這個 farm 沒有任何庫存，LEFT JOIN 會得到 NamespaceID = NULL。
+    // 這種情況只保留 farm 本身，不加入 items。
+    if ($row['NamespaceID'] === null) {
         continue;
     }
 
-    $raw = file_get_contents($file);
-    $decoded = json_decode($raw, true);
-    if (!is_array($decoded)) {
-        continue;
-    }
-
-    $candidates[] = [
-        'name' => $name,
-        'mtime' => filemtime($file) ?: 0,
-        'payload_time' => get_payload_updated_at($decoded),
-        'data' => $decoded,
+    $farmsById[$farmId]['items'][] = [
+        'NamespaceID' => $row['NamespaceID'],
+        'name_zh' => $row['name_zh'] ?? '',
+        'image' => $row['image'] ?? '',
+        'amount' => (int) $row['amount'],
+        'updated_at' => $row['item_updated_at'] ?? $row['farm_updated_at'] ?? '',
     ];
+    $farmsById[$farmId]['item_count']++;
 }
 
-// 如果沒有任何可用庫存檔，回傳空陣列，前端會顯示空狀態。
-if (!$candidates) {
-    echo json_encode([], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-    exit;
-}
+$farms = array_values($farmsById);
+$totalItemCount = array_sum(array_column($farms, 'item_count'));
 
-// 依 JSON 內 updated_at 或檔案修改時間排序，取最新的一份庫存資料。
-usort($candidates, function ($a, $b) {
-    $aTime = $a['payload_time'] ?? $a['mtime'];
-    $bTime = $b['payload_time'] ?? $b['mtime'];
-
-    if ($aTime === $bTime) {
-        return strcmp($b['name'], $a['name']);
+// 找出全資料庫最新更新時間，給前端摘要顯示。
+$updatedAt = '';
+foreach ($farms as $farm) {
+    if ($farm['updated_at'] !== '' && ($updatedAt === '' || strcmp($farm['updated_at'], $updatedAt) > 0)) {
+        $updatedAt = $farm['updated_at'];
     }
+}
 
-    return $bTime <=> $aTime;
-});
+$connection->close();
 
-// 回傳前端需要的庫存資料。
-echo json_encode(normalize_farms($candidates[0]['data']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+echo json_encode([
+    'success' => true,
+    'updated_at' => $updatedAt,
+    'farms' => $farms,
+    'total_item_count' => $totalItemCount,
+], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minecraft 倉庫庫存</title>
+  <title>Minecraft Bedrock 庫存管理</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <main class="game-screen">
     <section class="inventory-window" aria-labelledby="windowTitle">
       <header class="page-header">
-        <h1 id="windowTitle" class="page-title">大型儲物箱</h1>
+        <h1 id="windowTitle" class="page-title">Minecraft 庫存</h1>
         <div class="toolbar">
           <input id="searchInput" type="search" placeholder="搜尋物品或 NamespaceID">
-          <select id="statusFilter" aria-label="篩選庫存狀態">
+          <select id="statusFilter" aria-label="庫存狀態">
             <option value="all">全部</option>
             <option value="low">低庫存</option>
-            <option value="full">滿倉</option>
+            <option value="full">高庫存</option>
           </select>
-          <button id="refreshButton" class="mc-button" type="button">刷新</button>
+          <button id="refreshButton" class="mc-button" type="button">同步</button> 
         </div>
       </header>
 
-      <nav id="farmTabs" class="chest-tabs" aria-label="倉庫列表"></nav>
+      <nav id="farmTabs" class="chest-tabs" aria-label="農場列表"></nav>
 
       <section class="chest-section" aria-labelledby="chestTitle">
         <div class="section-title-row">
-          <h2 id="chestTitle">容器</h2>
-          <span id="dashboardSubtitle" class="source-line">正在載入庫存...</span>
+          <h2 id="chestTitle">庫存格</h2>
+          <span id="dashboardSubtitle" class="source-line">載入庫存中...</span>
         </div>
         <div id="inventoryGrid" class="slot-grid" aria-live="polite"></div>
       </section>
@@ -40,7 +40,7 @@
             <strong id="totalAmount">0</strong>
           </div>
           <div class="summary-cell">
-            <span>格數</span>
+            <span>物品種類</span>
             <strong id="itemCount">0</strong>
           </div>
           <div class="summary-cell">
@@ -55,9 +55,9 @@
       </section>
     </section>
 
-    <aside class="detail-window" aria-label="已選物品">
-      <h2 id="selectedChestName">全部容器</h2>
-      <p id="selectedChestDesc">選取一個物品格來查看堆疊資訊。</p>
+    <aside class="detail-window" aria-label="物品明細">
+      <h2 id="selectedChestName">全部庫存</h2>
+      <p id="selectedChestDesc">選擇農場或物品查看明細。</p>
       <div id="itemDetail" class="item-detail empty"></div>
     </aside>
   </main>
