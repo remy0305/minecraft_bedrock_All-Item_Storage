@@ -1,0 +1,28 @@
+{
+    "updated_at": "2026-06-19 21:55:30",
+    "farm_code": "drowned_farm",
+    "farm_name": "沉屍塔",
+    "description": "沉屍塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:rotten_flesh",
+            "amount": 370
+        },
+        {
+            "NamespaceID": "minecraft:trident",
+            "amount": 141
+        },
+        {
+            "NamespaceID": "minecraft:fishing_rod",
+            "amount": 54
+        },
+        {
+            "NamespaceID": "minecraft:copper_ingot",
+            "amount": 18
+        },
+        {
+            "NamespaceID": "minecraft:undyed_shulker_box",
+            "amount": 2
+        }
+    ]
+}

@@ -1,0 +1,80 @@
+{
+    "updated_at": "2026-06-20 00:00:05",
+    "farm_code": "raid_farm",
+    "farm_name": "掠奪者農場",
+    "description": "掠奪者農場",
+    "items": [
+        {
+            "NamespaceID": "minecraft:redstone",
+            "amount": 2471
+        },
+        {
+            "NamespaceID": "minecraft:arrow",
+            "amount": 2194
+        },
+        {
+            "NamespaceID": "minecraft:ink_sac",
+            "amount": 442
+        },
+        {
+            "NamespaceID": "minecraft:totem_of_undying",
+            "amount": 376
+        },
+        {
+            "NamespaceID": "minecraft:stick",
+            "amount": 237
+        },
+        {
+            "NamespaceID": "minecraft:sugar",
+            "amount": 122
+        },
+        {
+            "NamespaceID": "minecraft:spider_eye",
+            "amount": 116
+        },
+        {
+            "NamespaceID": "minecraft:glowstone_dust",
+            "amount": 90
+        },
+        {
+            "NamespaceID": "minecraft:gunpowder",
+            "amount": 86
+        },
+        {
+            "NamespaceID": "minecraft:glass_bottle",
+            "amount": 83
+        },
+        {
+            "NamespaceID": "minecraft:rotten_flesh",
+            "amount": 25
+        },
+        {
+            "NamespaceID": "minecraft:minecart",
+            "amount": 4
+        },
+        {
+            "NamespaceID": "minecraft:rail",
+            "amount": 4
+        },
+        {
+            "NamespaceID": "minecraft:nautilus_shell",
+            "amount": 3
+        },
+        {
+            "NamespaceID": "minecraft:spruce_button",
+            "amount": 3
+        },
+        {
+            "NamespaceID": "minecraft:copper_ingot",
+            "amount": 2
+        },
+        {
+            "NamespaceID": "minecraft:oak_leaves",
+            "amount": 2
+        },
+        {
+            "NamespaceID": "minecraft:smooth_stone",
+            "amount": 1
+        }
+    ]
+}

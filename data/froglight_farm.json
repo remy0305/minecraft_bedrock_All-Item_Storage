@@ -1,0 +1,24 @@
+{
+    "updated_at": "2026-06-19 21:45:14",
+    "farm_code": "forglight_farm",
+    "farm_name": "蛙光體農場",
+    "description": "蛙光體農場",
+    "items": [
+        {
+            "NamespaceID": "minecraft:ochre_froglight",
+            "amount": 20422
+        },
+        {
+            "NamespaceID": "minecraft:pearlescent_froglight",
+            "amount": 17822
+        },
+        {
+            "NamespaceID": "minecraft:verdant_froglight",
+            "amount": 17786
+        },
+        {
+            "NamespaceID": "minecraft:magma_cream",
+            "amount": 13694
+        }
+    ]
+}

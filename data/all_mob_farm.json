@@ -1,0 +1,40 @@
+{
+    "updated_at": "2026-06-20 00:00:05",
+    "farm_code": "all_mob_farm",
+    "farm_name": "全怪塔",
+    "description": "全怪塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:rotten_flesh",
+            "amount": 202112
+        },
+        {
+            "NamespaceID": "minecraft:gunpowder",
+            "amount": 50112
+        },
+        {
+            "NamespaceID": "minecraft:redstone",
+            "amount": 18880
+        },
+        {
+            "NamespaceID": "minecraft:bone",
+            "amount": 5618
+        },
+        {
+            "NamespaceID": "minecraft:undyed_shulker_box",
+            "amount": 144
+        },
+        {
+            "NamespaceID": "minecraft:orange_shulker_box",
+            "amount": 1
+        },
+        {
+            "NamespaceID": "minecraft:hopper",
+            "amount": 1
+        },
+        {
+            "NamespaceID": "minecraft:pink_shulker_box",
+            "amount": 1
+        }
+    ]
+}

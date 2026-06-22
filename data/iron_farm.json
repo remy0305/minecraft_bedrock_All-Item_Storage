@@ -1,0 +1,28 @@
+{
+    "updated_at": "2026-06-19 21:57:32",
+    "farm_code": "iron_farm",
+    "farm_name": "鐵巨人塔",
+    "description": "鐵巨人塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:iron_block",
+            "amount": 12096
+        },
+        {
+            "NamespaceID": "minecraft:iron_ingot",
+            "amount": 4094
+        },
+        {
+            "NamespaceID": "minecraft:poppy",
+            "amount": 942
+        },
+        {
+            "NamespaceID": "minecraft:string",
+            "amount": 889
+        },
+        {
+            "NamespaceID": "minecraft:ink_sac",
+            "amount": 521
+        }
+    ]
+}

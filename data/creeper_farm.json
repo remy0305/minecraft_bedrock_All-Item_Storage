@@ -1,0 +1,16 @@
+{
+    "updated_at": "2026-06-19 22:09:52",
+    "farm_code": "creeper_farm",
+    "farm_name": "苦力帕塔",
+    "description": "苦力帕塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:gunpowder",
+            "amount": 246892
+        },
+        {
+            "NamespaceID": "minecraft:undyed_shulker_box",
+            "amount": 143
+        }
+    ]
+}

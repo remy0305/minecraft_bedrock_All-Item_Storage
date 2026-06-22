@@ -1,0 +1,24 @@
+{
+    "updated_at": "2026-06-19 21:52:26",
+    "farm_code": "pigman_farm",
+    "farm_name": "豬人塔",
+    "description": "豬人塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:rotten_flesh",
+            "amount": 68616
+        },
+        {
+            "NamespaceID": "minecraft:gold_nugget",
+            "amount": 25700
+        },
+        {
+            "NamespaceID": "minecraft:gold_block",
+            "amount": 3613
+        },
+        {
+            "NamespaceID": "minecraft:gold_ingot",
+            "amount": 857
+        }
+    ]
+}

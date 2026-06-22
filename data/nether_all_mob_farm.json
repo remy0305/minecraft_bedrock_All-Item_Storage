@@ -1,0 +1,28 @@
+{
+    "updated_at": "2026-06-19 21:42:15",
+    "farm_code": "nether_all_mob_farm",
+    "farm_name": "地獄全怪塔",
+    "description": "地獄全怪塔",
+    "items": [
+        {
+            "NamespaceID": "minecraft:bone",
+            "amount": 4099
+        },
+        {
+            "NamespaceID": "minecraft:blaze_rod",
+            "amount": 1285
+        },
+        {
+            "NamespaceID": "minecraft:coal_block",
+            "amount": 697
+        },
+        {
+            "NamespaceID": "minecraft:coal",
+            "amount": 684
+        },
+        {
+            "NamespaceID": "minecraft:wither_skeleton_skull",
+            "amount": 29
+        }
+    ]
+}
